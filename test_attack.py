@@ -67,7 +67,7 @@ def generate_data(data, samples, targeted=True, start=0, inception=False):
 if __name__ == "__main__":
   with tf.Session() as sess:
     data, model =  GTSRB(), Model('/Users/damiafatihah/Desktop/Data Science Project/TrafficSignRecognition/Model/model_without_softmax.h5')
-    attack = CarliniL2(sess, model, batch_size=9, max_iterations=1000, confidence=0, boxmin=0, boxmax=1)
+    attack = CarliniL2(sess, model, batch_size=6, max_iterations=1000, confidence=0, boxmin=0, boxmax=1)
         #attack = CarliniL0(sess, model, max_iterations=1000, initial_const=10,
         #                   largest_const=15)
 

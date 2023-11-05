@@ -5,25 +5,11 @@
 ## This program is licenced under the BSD 2-Clause licence,
 ## contained in the LICENCE file in this directory.
 
-import os
-import pathlib
-import pandas as pd
 import numpy as np
 import tensorflow as tf
 import random
-import cv2
 import time
-from tensorflow import keras
-from PIL import Image
 import matplotlib.pyplot as plt
-from matplotlib.image import imread
-from sklearn.model_selection import train_test_split
-from tensorflow.keras.preprocessing import image
-from tensorflow.keras.preprocessing.image import ImageDataGenerator, img_to_array, array_to_img, load_img
-from tensorflow.keras.utils import to_categorical
-from tensorflow.keras.models import Sequential, load_model
-# from tensorflow.keras.optimizers.legacy import Adam
-from tensorflow.keras.layers import Conv2D, MaxPool2D, Dense, Flatten, Dropout, BatchNormalization
 from l2_attack import CarliniL2
 from setup_model import GTSRB, Model
 

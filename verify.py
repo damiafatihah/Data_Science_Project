@@ -22,5 +22,5 @@ with tf.Session() as sess:
         pred = sess.run(y, {x: data.X_test[i:i+BATCH_SIZE]})
         print(pred)
         print('real',data.y_test[i],'pred',np.argmax(pred))
-        r.append(np.argmax(pred,1) == np.argmax(data.test_labels[i:i+BATCH_SIZE],1))
+        r.append(np.argmax(pred,1) == np.argmax(data.y_test[i:i+BATCH_SIZE],1))
         print(np.mean(r))

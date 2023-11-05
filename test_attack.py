@@ -37,6 +37,7 @@ def generate_data(data, samples, targeted=True, start=0, inception=False):
     """
     inputs = []
     targets = []
+    true_labels = []
     for i in range(samples):
         if targeted:
             if inception:
@@ -49,6 +50,8 @@ def generate_data(data, samples, targeted=True, start=0, inception=False):
                     continue
                 inputs.append(data.X_test[start+i])
                 targets.append(np.eye(data.y_test.shape[1])[j])
+                true_labels.append(data.test_labels[start + i])
+                true_labels = np.array(true_labels)
         else:
             inputs.append(data.X_test[start+i])
             targets.append(data.y_test[start+i])
@@ -56,7 +59,13 @@ def generate_data(data, samples, targeted=True, start=0, inception=False):
     inputs = np.array(inputs)
     targets = np.array(targets)
 
-    return inputs, targets
+    return inputs, targets, true_labels
+
+def calculate_accuracy(logits, true_labels):
+    predicted_labels = np.argmax(logits, axis=1)
+    correct_predictions = np.sum(predicted_labels == true_labels)
+    accuracy = correct_predictions / len(true_labels)
+    return accuracy
 
 if __name__ == "__main__":
   with tf.Session() as sess:
@@ -65,7 +74,7 @@ if __name__ == "__main__":
         #attack = CarliniL0(sess, model, max_iterations=1000, initial_const=10,
         #                   largest_const=15)
 
-    inputs, targets = generate_data(data, samples=10, targeted=True,
+    inputs, targets, true_labels = generate_data(data, samples=1, targeted=True,
                                         start=0, inception=False)
     timestart = time.time()
     adv = attack.attack(inputs, targets)
@@ -82,3 +91,8 @@ if __name__ == "__main__":
         print("Classification:", model.model.predict(adv[i:i+1]))
 
         print("Total distortion:", np.sum((adv[i]-inputs[i])**2)**.5)
+
+    accuracy = calculate_accuracy(adv, true_labels)
+    print(accuracy)
+
+
